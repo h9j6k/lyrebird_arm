@@ -12,13 +12,13 @@ Add the following e.g., to `/etc/rc.local`
 # /etc/rc.local
 if [ $(uname -m) == 'aarch64' ] ; then 
   ARM='arm64'
-  echo 'opwnwrt is running on arm64'
+  echo 'openwrt is running on arm64'
 else
   ARM='arm'
   echo 'openwrt is running on armv7l'
 fi
 
-LYREBIRD_BIN_URL='https://ghfast.top/github.com/h9j6k/lyrebird_arm/releases/download/v0.7.0/lyrebird.'$ARM'.tgz'
+LYREBIRD_BIN_URL='https://github.com/h9j6k/lyrebird_arm/releases/download/v0.7.0/lyrebird.'$ARM'.tgz'
 
 if ! [ -f /tmp/lyrebird ] ; then  
   /etc/init.d/tor stop
@@ -40,7 +40,7 @@ if ! [ -f /tmp/lyrebird ] ; then
     /etc/init.d/tor start
   fi
 else
-  echo 'lyrebird exists, no need to download from github';
+  echo 'lyrebird exists, no need to download from github'
 fi
 
 exit 0
