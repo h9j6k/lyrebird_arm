@@ -18,7 +18,9 @@ else
   echo 'openwrt is running on armv7l'
 fi
 
-LYREBIRD_BIN_URL='https://github.com/h9j6k/lyrebird_arm/releases/download/v0.7.0/lyrebird.'$ARM'.tgz'
+RELEASE='0.7.0'
+LYREBIRD_BIN_URL='https://github.com/h9j6k/lyrebird_arm/releases/download/v'$RELEASE'/lyrebird.'$ARM'.tgz'
+GEOIP_URL='https://github.com/h9j6k/lyrebird_arm/releases/download/v'$RELEASE'/geoip.tgz'
 
 if ! [ -f /tmp/lyrebird ] ; then  
   /etc/init.d/tor stop
@@ -26,11 +28,17 @@ if ! [ -f /tmp/lyrebird ] ; then
 
   echo 'lyrebird does not exist, download from github ...'
   wget -P /tmp/ $LYREBIRD_BIN_URL 
+  wget -P /tmp/ $GEOIP_URL
 
   if [ -f /tmp/lyrebird.$ARM.tgz ] ; then
     # need to install tar beforehand 
     tar -xzvf /tmp/lyrebird.$ARM.tgz -C /tmp/ 
   fi 
+  if [ -f /tmp/geoip.tgz ] ; then 
+    tar -xzvf /tmp/geoip.tgz -C /tmp/
+  fi
+
+  chown -hR tor:tor /tmp/geoip* /tmp/lyrebird
 
   if [ -f /tmp/lyrebird.$ARM.upx ] ; then
     echo 'lyrebird downloaded, verifying ...'
@@ -39,6 +47,9 @@ if ! [ -f /tmp/lyrebird ] ; then
     echo 'lyrebird verified, now start tor service'
     /etc/init.d/tor start
   fi
+
+  rm -v /tmp/geoip.tgz 
+  rm -v /tmp/lyrebird.$ARM.tgz
 else
   echo 'lyrebird exists, no need to download from github'
 fi
