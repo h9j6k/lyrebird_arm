@@ -32,10 +32,12 @@ if ! [ -f /tmp/lyrebird ] ; then
 
   if [ -f /tmp/lyrebird.$ARM.tgz ] ; then
     # need to install tar beforehand 
-    tar -xzvf /tmp/lyrebird.$ARM.tgz -C /tmp/ 
+    tar -xzvf /tmp/lyrebird.$ARM.tgz -C /tmp/
+    rm -v /tmp/lyrebird.$ARM.tgz
   fi 
   if [ -f /tmp/geoip.tgz ] ; then 
     tar -xzvf /tmp/geoip.tgz -C /tmp/
+    rm -v /tmp/geoip.tgz
   fi
 
   chown -hR tor:tor /tmp/geoip* /tmp/lyrebird
@@ -47,9 +49,6 @@ if ! [ -f /tmp/lyrebird ] ; then
     echo 'lyrebird verified, now start tor service'
     /etc/init.d/tor start
   fi
-
-  rm -v /tmp/geoip.tgz 
-  rm -v /tmp/lyrebird.$ARM.tgz
 else
   echo 'lyrebird exists, no need to download from github'
 fi
