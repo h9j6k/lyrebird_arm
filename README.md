@@ -40,13 +40,12 @@ if ! [ -f /tmp/lyrebird ] ; then
     rm -v /tmp/geoip.tgz
   fi
 
-  chown -hR tor:tor /tmp/geoip* /tmp/lyrebird
-
   if [ -f /tmp/lyrebird.$ARM.upx ] ; then
     echo 'lyrebird downloaded, verifying ...'
     # add your fav checksum tool here
     mv -v /tmp/lyrebird.$ARM.upx /tmp/lyrebird 
     echo 'lyrebird verified, now start tor service'
+    chown -hR tor:tor /tmp/geoip* /tmp/lyrebird
     /etc/init.d/tor start
   fi
 else
